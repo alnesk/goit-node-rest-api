@@ -6,14 +6,22 @@ import {
   createContactSchema,
   updateContactSchema,
 } from "../schemas/contactsSchemas.js";
-import * as contactsService from "../services/contactsServices.js";
+import Joi from "joi";
+// // import * as contactsService from "../services/contactsServices.js";
 
-import HttpError from "../helpers/HttpError.js";
+// // import HttpError from "../helpers/HttpError.js";
 
-import {
-  createContactSchema,
-  updateContactSchema,
-} from "../schemas/contactsSchemas.js";
+// import {
+//   createContactSchema,
+//   updateContactSchema,
+// } from "../schemas/contactsSchemas.js";
+export const updateContactSchema = Joi.object({
+  name: Joi.string().min(1).max(100).required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+})
+.min(1)
+.message({ 'object.min': 'Body must have at least one field' });
 
 export const getAllContacts = async (req, res, next) => {
   try {
@@ -85,10 +93,3 @@ export const updateContact = async (req, res, next) => {
   }
 };
 
-export const updateContactSchema = Joi.object({
-  name: Joi.string().min(1).max(100).required(),
-  email: Joi.string().email().required(),
-  phone: Joi.string().required(),
-})
-.min(1)
-.message({ 'object.min': 'Body must have at least one field' });
